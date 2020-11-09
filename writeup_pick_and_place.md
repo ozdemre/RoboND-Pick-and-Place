@@ -350,12 +350,12 @@ print("Joint angles for eef position", str(x), "are : ", theta1, theta2, theta3,
 
 [//]: # (Image References)
 
-[image1]: ./misc_images/homogenous_transform.jpg
-[image2]: ./misc_images/homogenous_transform2.jpg
+[image1]: ./misc_images/homogenous_transform.JPG
+[image2]: ./misc_images/homogenous_transform2.JPG
 [image3]: ./misc_images/DH_Gazebo_diff.JPG
 [image4]: ./misc_images/wrist_center.JPG
 [image6]: ./misc_images/DH_Figure.JPG
-[image7]: ./misc_images/Inverse_Position.JPG
+[image7]: ./misc_images/Inverse_Position.jpg
 
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
