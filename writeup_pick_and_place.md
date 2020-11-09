@@ -2,6 +2,59 @@
 ### This is my implementation for Udacity Robotics Software Engineer Nanodegree Program Pick and Place project.
 
 ---
+## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
+### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+
+---
+### Writeup / README
+
+#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  
+
+You're reading it!
+
+### Kinematic Analysis
+#### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
+
+Please see:
+
+Section 2 - Denavit-Hartenberg Parameter Table
+
+#### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
+
+Please see:
+
+Section 3 - Homogenous Transformation Matrix
+
+Section 4 - Generate Roll-Pitch-Yaw Matrix
+
+#### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
+
+Please see:
+ 
+Section-5: Calculate Wrist Center Location
+
+Section-6: Inverse Position Problem
+
+Section-7: Inverse Orientation Problem
+
+### Project Implementation
+
+#### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
+
+1. All the steps for [IK_server.py](./IK_server.py) is given below.
+2. Here is the [Video](./video/kuka_pick_and_place.ogg) for successful pick and place operations. 
+
+Here what I have learn:
+1. Definitely use a powerful computer. SSD Disk, 4GB ram with 2 processors is incredibly slow, especially while screen recording.
+2. I used relatively simple and straight forward method here. For some operations some of the joints seem to be moving unnecessarily much, even though trajectory is on track.
+Might be related with joint limits
+3. Regarding with first 3 joints, joint configuration is always elbow up as it seem more natural to me. Elbow down option could be also added.
+4. For optimizing run time, code can be improved. 
+There are some unnecessary calculation which slow he process down. 
+As a further step this can be worked. Migrating the calculations to another programming language is also an option(C++)
+ 
+
+
 **Problem Statement:**
 
 Complete ROS & Gazebo package of Kuka KR210 RRR type robot arm is given in the original [project repository](https://github.com/udacity/RoboND-Kinematics-Project) of Udacity.
@@ -358,54 +411,6 @@ print("Joint angles for eef position", str(x), "are : ", theta1, theta2, theta3,
 [image7]: ./misc_images/Inverse_Position.jpg
 
 
-## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
-
----
-### Writeup / README
-
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  
-
-You're reading it!
-
-### Kinematic Analysis
-#### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
-
-Please see:
-
-Section 2 - Denavit-Hartenberg Parameter Table
-
-#### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
-
-Please see:
-
-Section 3 - Homogenous Transformation Matrix
-Section 4 - Generate Roll-Pitch-Yaw Matrix
-
-#### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
-
-Please see:
- 
-Section-5: Calculate Wrist Center Location
-Section-6: Inverse Position Problem
-Section-7: Inverse Orientation Problem
-
-### Project Implementation
-
-#### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
-
-1: All the steps for [IK_server.py](./IK_server.py) is given below.
-2: Here is the [Video](./video/kuka_pick_and_place.ogg) for successful pick and place operations. 
-
-Here what I have learn:
-1: Definitely use a powerful computer. SSD Disk, 4GB ram with 2 processors is incredibly slow, especially while screen recording.
-2: I used relatively simple and straight forward method here. For some operations some of the joints seem to be moving unnecessarily much, even though trajectory is on track.
-Might be related with joint limits
-3: Regarding with first 3 joints, joint configuration is always elbow up as it seem more natural to me. Elbow down option could be also added.
-4: For optimizing run time, code can be improved. 
-There are some unnecessary calculation which slow he process down. 
-As a further step this can be worked. Migrating the calculations to another programming language is also an option(C++)
- 
 
 
 
