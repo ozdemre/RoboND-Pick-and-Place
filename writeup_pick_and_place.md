@@ -174,6 +174,31 @@ Rcorr = rotation_z(pi) * rotation_y(-pi / 2)
 # Apply the correction matrix
 Rrpy = Rrpy * Rcorr
 ```
+Where rotation_z and rotation_y are predefined functions as:
+
+```python
+
+def rotation_y(radians):
+    # Rotation matrix for y-axis
+
+    rotation_matrix = Matrix([
+        [cos(radians), 0, sin(radians)],
+        [0, 1, 0],
+        [-sin(radians), 0, cos(radians)],
+    ])
+    return rotation_matrix
+
+
+def rotation_z(radians):
+    # Rotation matrix for z-axis
+
+    rotation_matrix = Matrix([
+        [cos(radians), -sin(radians), 0],
+        [sin(radians), cos(radians), 0],
+        [0, 0, 1],
+    ])
+    return rotation_matrix
+```
 
 **5-Calculate Wrist Center Location:**
 
@@ -223,25 +248,30 @@ theta1 = atan2(wy, wx)
 
 For theta2 and theta3, first calculate the adjacent edge distances.
 ```python
-
+r = sqrt(wx ** 2 + wy ** 2) - 0.35  # radial distance from link2 to wc from above, 0.35 is a1
+A = 1.5011                          # sqrt(1.5 **2 + 0.054 **2)
+B = sqrt(r ** 2 + (wz - 0.75) ** 2) #
+C = 1.25                            # a2 = 1.25
 ```
 
 Then apply cosine law to find the angle a.
 ```python
+a = acos((B ** 2 + C ** 2 - A ** 2) / (2 * B * C))
+```
+Joint 2 angle can be calculated as : pi/2 - red angle a (from cos law) - blue angle(arctan calculated below)
+```python
+theta2 = pi / 2 - a - atan2(wz - 0.75, r)
 
 ```
-Compensate the differences
+Similar method is applied for theta 3. First calculate angle b from cosine law.
 ```python
-
+b = acos((A ** 2 + C ** 2 - B ** 2) / (2 * A * C))
 ```
-Similar method is applied for theta 3. Fİrst calculate angle b from cosine law.
-```python
-
-```
-Compansate the differences 
+Similarly Joint 3 angle can be calculated as pi/2 - red angle b (from cos law) - small drop (arctan calculated below)
 
 ```python
-
+# 0.036 radian is necessary to be taken into account for small drop from joint3 to 4. It is simply atan2(0.054,1.5)
+theta3 = pi / 2 - (b + 0.036)
 ```
 
 
@@ -253,7 +283,6 @@ To calculate their values let's first find the rotation matrix from base link to
 FOr that we can use previously derived transformation matrices and use only rotation part.
 ```python
 R0_3 = (T0_1 * T1_2 * T2_3)[0:3, 0:3]
-
 ```
 
 Since we know theta1-3 values we can put those values into R0_3 matrix to get the numerical value.
@@ -267,7 +296,7 @@ R3_6 = R0_3.T * Rrpy  # in theory inverse and transpose of R0_3 is equal as rota
 
 Now, lets calculate the R3_6 matrix again but this time with symbolic way. This pat is done in IK_debug.py code.
 ```python
-    R3_6_sym = simplify((get_rotation_from_transformation_matrix(T3_4) * get_rotation_from_transformation_matrix(T4_5) * \
+R3_6_sym = simplify((get_rotation_from_transformation_matrix(T3_4) * get_rotation_from_transformation_matrix(T4_5) * \
                get_rotation_from_transformation_matrix(T5_6)).T) * Rcorr
 ```
 where get_rotation_from_transformation_matrix function is simply:
@@ -295,15 +324,29 @@ As obvious theta5 is:
 theta5 = acos(R3_6[1, 2])
 ```
 
-for theta4:
-
-
-for theta6:
-
+For theta4 we can use R3_6[2, 2] and R3_6[0, 2]. Division of these elements 
+cancel-out theta5 terms and with a minus signal we have arctan(q4)
+```python
+theta4 = atan2(-R3_6[2, 2], R3_6[0, 2])
+```
+For theta6 we can use R3_6[1, 1] and R3_6[1, 0]. Division of these elements 
+cancel-out theta5 terms and with a minus signal we have arctan(q6)
+```python
+theta6 = atan2(R3_6[1, 1], -R3_6[1, 0])
+```
+Great! Now we have all joint angles!
 
 **8-Append and Publish!**
 
+This part is already ready to go in the provided script. All the trajectory points are collected and above calculations are done for each sampling point inside a for loop.
+All joint angles for all trajectory points are appended to a list and published via ROS network.
+What I have done is add some print codes to keep track my calculation steps a bit more clear 
 
+```python
+print("Theta1, theta2 and theta3 joint angles are calculated")
+print("Theta4, theta5 and theta6 joint angles are calculated")
+print("Joint angles for eef position", str(x), "are : ", theta1, theta2, theta3, theta4, theta5, theta6)
+```
 
 [//]: # (Image References)
 
@@ -312,6 +355,8 @@ for theta6:
 [image3]: ./misc_images/DH_Gazebo_diff.JPG
 [image4]: ./misc_images/wrist_center.JPG
 [image6]: ./misc_images/DH_Figure.JPG
+[image7]: ./misc_images/Inverse_Position.JPG
+
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -326,38 +371,43 @@ You're reading it!
 ### Kinematic Analysis
 #### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
 
-Here is an example of how to include an image in your writeup.
+Please see:
 
-![alt text][image1]
+Section 2 - Denavit-Hartenberg Parameter Table
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 
-Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
---- | --- | --- | --- | ---
-0->1 | 0 | 0 | L1 | qi
-1->2 | - pi/2 | L2 | 0 | -pi/2 + q2
-2->3 | 0 | 0 | 0 | 0
-3->4 |  0 | 0 | 0 | 0
-4->5 | 0 | 0 | 0 | 0
-5->6 | 0 | 0 | 0 | 0
-6->EE | 0 | 0 | 0 | 0
+Please see:
 
+Section 3 - Homogenous Transformation Matrix
+Section 4 - Generate Roll-Pitch-Yaw Matrix
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
-And here's where you can draw out and show your math for the derivation of your theta angles. 
-
-![alt text][image2]
+Please see:
+ 
+Section-5: Calculate Wrist Center Location
+Section-6: Inverse Position Problem
+Section-7: Inverse Orientation Problem
 
 ### Project Implementation
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
 
+1: All the steps for [IK_server.py](./IK_server.py) is given below.
+2: Here is the [Video](./video/kuka_pick_and_place.ogg) for successful pick and place operations. 
 
-Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
+Here what I have learn:
+1: Definitely use a powerful computer. SSD Disk, 4GB ram with 2 processors is incredibly slow, especially while screen recording.
+2: I used relatively simple and straight forward method here. For some operations some of the joints seem to be moving unnecessarily much, even though trajectory is on track.
+Might be related with joint limits
+3: Regarding with first 3 joints, joint configuration is always elbow up as it seem more natural to me. Elbow down option could be also added.
+4: For optimizing run time, code can be improved. 
+There are some unnecessary calculation which slow he process down. 
+As a further step this can be worked. Migrating the calculations to another programming language is also an option(C++)
+ 
 
 
-And just for fun, another example image:
-![alt text][image3]
+
 
 
