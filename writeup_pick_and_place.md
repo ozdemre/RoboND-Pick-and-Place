@@ -287,6 +287,7 @@ wz = pz - 0.303 * nz
 ```
 
 **6-Inverse Position Problem:**
+
 Now we have decoupled the problem, theta1, theta2 and theta3 can be calculated in a closed form.
 
 Here is figure I draw for better understanding as it is hard to visualize
@@ -331,6 +332,7 @@ theta3 = pi / 2 - (b + 0.036)
 Great! Inverse Position problem is solved and theta1-3 is calculated.
 
 **7-Inverse Orientation Problem:**
+
 As name states, orientation of end effector will be determined by the angle of the last 3 joints, that is wrist1, wrist2 and wrist3 joint.
 To calculate their values let's first find the rotation matrix from base link to link3
 FOr that we can use previously derived transformation matrices and use only rotation part.
