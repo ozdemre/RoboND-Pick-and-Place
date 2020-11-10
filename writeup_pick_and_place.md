@@ -42,7 +42,7 @@ Section-7: Inverse Orientation Problem
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
 
 1. All the steps for [IK_server.py](./IK_server.py) is given below.
-2. Here is the [Video](./video/kuka_pick_and_place.ogg) for successful pick and place operations. 
+2. Here is the [Video](https://www.youtube.com/watch?v=30WFnx8ArHI) for 9/10 successful pick and place operations. 
 
 Here what I have learn:
 1. Definitely use a powerful computer. SSD Disk, 4GB ram with 2 processors is incredibly slow, especially while screen recording.
@@ -99,7 +99,9 @@ All the details of these steps given below.
 
 **1-Setting up the workspace:**
 
-In this project I used virtual machine provided by the course. As the computer that I am using is quite old, I had some performance issues, but I didn't want to go into all another bother of making a clean Ubuntu 16 and ROS Kinetic install.
+In this project I used virtual machine provided by the course. 
+As the computer that I am using is quite old, I had some performance issues, 
+but I didn't want to go into complexity of making a clean Ubuntu 16 and ROS Kinetic install.
  
 **2-Denavit-Hartenberg Parameter Table:**
 

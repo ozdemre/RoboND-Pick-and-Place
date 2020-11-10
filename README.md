@@ -14,6 +14,9 @@ Typical Pick and Place operation consist of 6 main steps.
 
 Here is a successful Pick and Place operation 
 
+![alt text][image1]
+
+
 Provided ROS package has all the steps except from 2 and 5. What's left to us is to create a Inverse Kinematics service 
 node (IK_Server.py) which calculates the necessary joint angles for all joints for all provided trajectory samples provided by Moveit!? Rest is already done by the ROS package 
 
@@ -46,9 +49,12 @@ $ rosrun kuka_arm IK_server.py
 1. [writeup_pick_and_place.md](writeup_pick_and_place.md) Writeup file includes solution steps and all explanations
 2. [IK_server.py](./IK_server.py) : ROS node for Forward and Inverse Kinematic Calculations
 3. [IK_debug.py](./IK_debug.py) : Python script for debugging and additional calculations.
-4. [Video](./video/kuka_pick_and_place.ogg): Video of successful pick and place operations. -to be added-
+4. [Video](https://www.youtube.com/watch?v=30WFnx8ArHI): Video of 9/10 successful pick and place operations. -to be added-
 
 **My Comments**
 
-1-
-2- 
+1. 
+2.  
+
+
+[image1]: ./misc_images/pick_and_place_gif.JPG
