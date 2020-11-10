@@ -63,7 +63,7 @@ Typical Pick and Place operation consist of 6 main steps.
 5. Going for second target pose
 6. Release the object
 
-Provided ROS package has all the steps except from 2 and 5. What's left to us is to create a Inverse Kinematics service 
+Provided ROS package has all the steps except from 1 and 5. What's left to us is to create a Inverse Kinematics service 
 node (IK_Server.py) which calculates the necessary joint angles for all joints for all provided trajectory samples provided by Moveit!? Rest is already done by the ROS package 
 
 **Forward and Inverse Kinematics Calculation Steps:**
