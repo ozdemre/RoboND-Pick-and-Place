@@ -15,13 +15,18 @@ You're reading it!
 ### Kinematic Analysis
 #### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
 
-Please see:
+This part is easy to complete as some of the DH-parameters are already given in the class. What I have done is, first inspect the URDF file carrefully and use Rviz (with forward_kinematics.launch) to get a better understanding. 
+This helped me to catch the tricks like, overall distance to the end effector, or resting angles for some joints.
+
+For completed DH table
+
+Please see below:
 
 Section 2 - Denavit-Hartenberg Parameter Table
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 
-Please see:
+Please see below:
 
 Section 3 - Homogenous Transformation Matrix
 
@@ -29,7 +34,7 @@ Section 4 - Generate Roll-Pitch-Yaw Matrix
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
-Please see:
+Please see below:
  
 Section-5: Calculate Wrist Center Location
 
@@ -44,15 +49,7 @@ Section-7: Inverse Orientation Problem
 1. All the steps for [IK_server.py](./IK_server.py) is given below.
 2. Here is the [Video](https://www.youtube.com/watch?v=30WFnx8ArHI) for 9/10 successful pick and place operations. 
 
-Here what I have learn:
-1. Definitely use a powerful computer. SSD Disk, 4GB ram with 2 processors is incredibly slow, especially while screen recording.
-2. I used relatively simple and straight forward method here. For some operations some of the joints seem to be moving unnecessarily much, even though trajectory is on track.
-Might be related with joint limits
-3. Regarding with first 3 joints, joint configuration is always elbow up as it seem more natural to me. Elbow down option could be also added.
-4. For optimizing run time, code can be improved. 
-There are some unnecessary calculation which slow he process down. 
-As a further step this can be worked. Migrating the calculations to another programming language is also an option(C++)
- 
+
 
 
 **Problem Statement:**
@@ -69,16 +66,6 @@ Typical Pick and Place operation consist of 6 main steps.
 Provided ROS package has all the steps except from 2 and 5. What's left to us is to create a Inverse Kinematics service 
 node (IK_Server.py) which calculates the necessary joint angles for all joints for all provided trajectory samples provided by Moveit!? Rest is already done by the ROS package 
 
-**Steps to complete the project:**  
-
-
-1. Set up your ROS Workspace.
-2. Download or clone the [project repository](https://github.com/udacity/RoboND-Kinematics-Project) into the ***src*** directory of your ROS Workspace.  
-3. Experiment with the forward_kinematics environment and get familiar with the robot.
-4. Launch in [demo mode](https://classroom.udacity.com/nanodegrees/nd209/parts/7b2fd2d7-e181-401e-977a-6158c77bf816/modules/8855de3f-2897-46c3-a805-628b5ecf045b/lessons/91d017b1-4493-4522-ad52-04a74a01094c/concepts/ae64bb91-e8c4-44c9-adbe-798e8f688193).
-5. Perform Kinematic Analysis for the robot following the [project rubric](https://review.udacity.com/#!/rubrics/972/view).
-6. Fill in the `IK_server.py` with your Inverse Kinematics code. Detailed explanations about deriving the Forward Kinematics (FK) and Inverse Kinematics (IK) equations are given below. 
-
 **Forward and Inverse Kinematics Calculation Steps:**
 
 Some tasks, even though seems simple to humans, require complex calculations for robots. 
@@ -94,6 +81,7 @@ Here are the solution steps that I followed:
 6. Solve the joint angles for waist, shoulder and elbow joint (theta1-3) by using Inverse Position problem.
 7. Solve the joint angles for wrist1, wrist2 and wrist3 joint (theta4-6) by using Inverse Orientation problem.
 8. Append all the joint angle results for trajectory points to list and publish the message.
+9. Final comments
 
 All the details of these steps given below.
 
@@ -404,6 +392,18 @@ print("Theta1, theta2 and theta3 joint angles are calculated")
 print("Theta4, theta5 and theta6 joint angles are calculated")
 print("Joint angles for eef position", str(x), "are : ", theta1, theta2, theta3, theta4, theta5, theta6)
 ```
+
+**9-My comments**
+
+Here what I have learn:
+1. Definitely use a powerful computer. SSD Disk, 4GB ram with 2 processors is incredibly slow, especially while screen recording.
+2. I used relatively simple and straight forward method here. For some operations some of the joints seem to be moving unnecessarily much, even though trajectory is on track.
+Might be related with joint limits
+3. Regarding with first 3 joints, joint configuration is always elbow up as it seem more natural to me. Elbow down option could be also added.
+4. For optimizing run time, code can be improved. 
+There are some unnecessary calculation which slow he process down. 
+As a further step this can be worked. Migrating the calculations to another programming language is also an option(C++)
+ 
 
 [//]: # (Image References)
 
