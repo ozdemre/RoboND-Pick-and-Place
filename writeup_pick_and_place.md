@@ -117,8 +117,6 @@ Here is a general form of homogenous transform matrix. (Image courtesy of Udacit
 
 ![alt text][image1]
 
-<sub>subscript</sub> and <sup>superscript</sup>
-
 Left side of the equation represents the position of point P wrt to Testing A<sub>0</sub> frame
 
 The first term on the right hand side of the equality is a 4x4 matrix called a homogeneous transform; it is composed of four subparts. 

@@ -15,7 +15,7 @@ Typical Pick and Place operation consist of 6 main steps.
 
 
 Provided ROS package has all the steps except from 2 and 5. What's left to us is to create a Inverse Kinematics service 
-node (IK_Server.py) which calculates the necessary joint angles for all joints for all provided trajectory samples provided by Moveit!? Rest is already done by the ROS package 
+node (IK_Server.py) which calculates the necessary joint angles for all joints for all provided trajectory samples provided by Moveit! Rest is already done by the ROS package 
 
 **How to use this code?**
 
