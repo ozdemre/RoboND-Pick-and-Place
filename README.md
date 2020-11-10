@@ -45,8 +45,7 @@ $ rosrun kuka_arm IK_server.py
 **Description of Files**
 1. [writeup_pick_and_place.md](writeup_pick_and_place.md) Writeup file includes solution steps and all explanations
 2. [IK_server.py](./IK_server.py) : ROS node for Forward and Inverse Kinematic Calculations
-3. [IK_debug.py](./IK_debug.py) : Python script for debugging and additional calculations.
-4. [Video](https://www.youtube.com/watch?v=30WFnx8ArHI): Video of 9/10 successful pick and place operations. 
+3. [Video](https://www.youtube.com/watch?v=30WFnx8ArHI): Video of 9/10 successful pick and place operations. 
 
 
 
